@@ -4,6 +4,7 @@
   "homepage": "https://jorgeduarte22.github.io/tweets-timeline",
   "private": true,
   "dependencies": {
+    "@atproto/api": "^0.14.20",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",

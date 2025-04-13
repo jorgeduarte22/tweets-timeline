@@ -1,18 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import TimelineChart from './TimelineChart';
-import SearchBar from './SearchBar';
+import App from './App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <SearchBar />
-    <TimelineChart />
+    <App />
   </React.StrictMode>
 );
 

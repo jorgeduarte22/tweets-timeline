@@ -1,34 +1,25 @@
 import 'zingchart/es6';
 import { useState } from 'react';
-import { AtpAgent } from '@atproto/api'
+import SearchBarDropdown, { Actor } from './SearchBarDropdown';
 
-const agent = new AtpAgent({
-  service: 'https://public.api.bsky.app'
-})
-
-function TimelineChart() {
-  const [actorResponse, setActorResponse] = useState(''); 
+function SearchBar() {
+  const [selectedActor, setSelectedActor] = useState<Actor | undefined>(undefined);
+  const [searchQuery, setSearchQuery] = useState('');
   
-  const searchValue = async (e: React.ChangeEvent<HTMLInputElement >) => {
-    const newValue = e. currentTarget.value;
-    if(newValue != "") {
-      // TODO handle loading and error msking this sync (removing the await)
-      const { data } = await agent.searchActorsTypeahead({
-        term: newValue
-      });
-      const outputString = data.actors.map(a => a.handle).toString();
-      setActorResponse(outputString);
-    } else {
-      setActorResponse("");
-    }
+  const onChange = async (e: React.ChangeEvent<HTMLInputElement >) => {
+    setSearchQuery(e.target.value);
   }
 
 	return <>
-    <input type="text" placeholder="Busca una cuenta:" onChange={searchValue}/>
     <div>
-      {actorResponse}
+      <input type="text" placeholder="Busca una cuenta:" onChange={onChange} value={searchQuery}/>
+      <SearchBarDropdown searchQuery={searchQuery} onSelect={(actor) => {
+        setSelectedActor(actor);
+        setSearchQuery('');
+      }}></SearchBarDropdown>
+      {selectedActor && <div>SelectedActor: {selectedActor.handle}</div>}
     </div>
   </>;
 }
 
-export default TimelineChart;
+export default SearchBar;

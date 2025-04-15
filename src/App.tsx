@@ -2,14 +2,28 @@ import './App.css';
 import { QueryClient, QueryClientProvider } from 'react-query'
 import TimelineChart from './TimelineChart';
 import SearchBar from './SearchBar';
+import { useState } from 'react';
 
-const queryClient = new QueryClient()
+const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      staleTime: twentyFourHoursInMs,
+    },
+  },
+});
 
 function App() {
+  const [selectedActor, setSelectedActor] = useState<string | undefined>(undefined);
+
   return (
     <QueryClientProvider client={queryClient}>
-     <SearchBar />
-     <TimelineChart />
+     <SearchBar onSelect={(actorDid) => setSelectedActor(actorDid)}/>
+     {selectedActor && <TimelineChart actorDid={selectedActor} />}
    </QueryClientProvider>
   );
 }

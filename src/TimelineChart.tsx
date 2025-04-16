@@ -62,12 +62,11 @@ function TimelineChart(props: {actorDid: string}) {
         values: values
       }],
       scaleX: {
-        minValue: new Date(sortedTimestamps[0]).valueOf(),
         maxValue: new Date().valueOf(),
         step: 60000,
         transform: {
           type: 'date',
-          all: '%D, %d %M %Y<br>%h:%i %A',
+          all: '%D, %d %M %Y',
           itemsOverlap: true,
         },
         item: {
@@ -92,7 +91,6 @@ function TimelineChart(props: {actorDid: string}) {
 
 	return <>
     <div>{props.actorDid}</div>
-    <div>{data}</div>
     <ZingChart data={getConfig(data || [])} />
   </>;
 }

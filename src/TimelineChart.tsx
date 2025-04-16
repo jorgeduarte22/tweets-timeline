@@ -13,17 +13,11 @@ const agent = new AtpAgent({
 
 function TimelineChart(props: {actorDid: string}) {
   const [loadedPosts, setLoadedPosts] = useState(0);
-  
-  const [config] = useState({
-    type: 'scatter',
-    series: [{
-      values: []
-    }]
-  })
 
   const getAllPosts = async (actorDid: string): Promise<string[]> => {
     let postTimelines:string[] = []
     let cursor: string | undefined = undefined;
+    setLoadedPosts(0);
     do {
       console.log(cursor);
       const response:AppBskyFeedGetAuthorFeed.Response = await agent.getAuthorFeed({
@@ -46,54 +40,97 @@ function TimelineChart(props: {actorDid: string}) {
     return postTimelines.sort();
   }
 
-  const getConfig = (sortedTimestamps: string[]) => {
-    //TODO Set a timezone
-    const values = sortedTimestamps.map(t => {
+  const dateToStringFormat = (date: Date): string => {
+    return date.getDate() + ' ' + (date.toLocaleString('default', { month: 'short' })) + ' ' + date.getFullYear();
+  }
+
+  const getScatterConfig = (sortedTimestamps: string[]) => {
+    // TODO Set a timezone
+    let postsByDate = new Map<string, number[]>();
+
+    console.log(sortedTimestamps);
+    sortedTimestamps.forEach(t => {
       const date = new Date(t);
-      const hour = date.getHours()*60 + date.getMinutes();
-      return [date.setHours(0, 0, 0, 0), hour]
+      const dateString = dateToStringFormat(date);
+      let currentPosts = postsByDate.get(dateString) || [];
+      console.log(t);
+      console.log(dateString);
+      console.log(currentPosts);
+      currentPosts.push(date.valueOf());
+      postsByDate.set(dateString, currentPosts);
     });
+    
+    let values: (string | number | undefined)[][] = [];
+    var now = new Date();
+    for (var d = new Date(sortedTimestamps[0]); d <= now; d.setDate(d.getDate() + 1)) {
+      const date = new Date(d);
+      const dateString = dateToStringFormat(date);
+      let posts = postsByDate.get(dateString) || [];
+      values.push([dateString, 186400000]);
+      posts.forEach(p => {
+        const postDate = new Date(p);
+        let millis = (postDate.getHours()*3600 + postDate.getMinutes()*60 + postDate.getSeconds()) * 1000;
+        console.log("PUSH " + millis);
+        values.push([dateString, millis]);
+      });
+    }
     console.log(values);
-    console.log("FIRST POST " + sortedTimestamps[0]);
-    console.log("FIRST POST " + new Date(sortedTimestamps[0]).valueOf());
+
     return {
       type: 'scatter',
+      utc: true,
       plot: {
         marker: {
-          size: 3,
+          size: 2,
           backgroundColor: "red",
           borderWidth: 0,
-          alpha: 0.3
+          alpha: 0.15
+        },
+        tooltip: {
+          text: '%scale-value-value',
+          transform: {
+            type: 'date',
+            all: '%H:%i'
+          }
         }
       },
       plotarea:{
           margin:"100px"
       },
-      series: [{
-        values: values
-      }],
       scaleX: {
-        maxValue: new Date().valueOf(),
-        step: 60000,
-        transform: {
-          type: 'date',
-          all: '%D, %d %M %Y',
-          itemsOverlap: true,
+        label: {
+          text: 'Date'
         },
         item: {
-          fontSize: 10
-        }
+          fontSize: 10,
+          angle: -30
+        },
       },
       scaleY: {
         minValue: 0,
-        maxValue: 1440,
-        step: 60
+        maxValue: 86400000,
+        step: 3600000, //1 hour
+        mirrored: true,
+        transform: {
+          type: 'date',
+          all: '%H:%i'
+        },
+        label: {
+          text: 'Time (UTC)'
+        },
+        item: {
+          fontSize: 10,
+        },
+        guide: {
+          lineStyle: 'dotted'
+        }
       },
-      source: {
-        text: "Bluesky API",
-        url: "https://docs.bsky.app/"
-      }
-    };
+      series: [
+        {
+          values: values,
+        }
+      ]
+    }
   }
   
   const {data, isLoading, error} = useQuery(['results', props.actorDid], () => getAllPosts(props.actorDid || ''));
@@ -105,8 +142,7 @@ function TimelineChart(props: {actorDid: string}) {
     return <><div>Error calculating chart</div></>
 
 	return <>
-    <div>{props.actorDid}</div>
-    <ZingChart data={getConfig(data || [])} />
+    <ZingChart data={getScatterConfig(data || [])} />
   </>;
 }
 

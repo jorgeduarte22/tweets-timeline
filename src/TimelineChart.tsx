@@ -35,6 +35,7 @@ function TimelineChart(props: {actorDid: string}) {
       cursor = response.data.cursor;
       console.log("SIZE " + response.data.feed.length);
       console.log("TOTAL SIZE " + postTimelines.length);
+      //TODO Calculate loaded posts without excluding rts
       setLoadedPosts(postTimelines.length)
     } while (cursor !== undefined)
     return postTimelines.sort();

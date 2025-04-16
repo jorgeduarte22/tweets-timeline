@@ -28,7 +28,12 @@ function SearchBar(props: {actorDid: string}) {
 
 	return <>
     <div style={style}>
-      User: @{data.handle}
+      <div>
+        User: @{data.handle}
+      </div>
+      <div>
+        Posts: {data.postsCount}
+      </div>
     </div>
   </>;
 }

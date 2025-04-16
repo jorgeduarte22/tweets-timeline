@@ -6,8 +6,8 @@ export interface Actor {
 
 function SearchBarDropdownItem(props: {actor: Actor, onClick: (actor: Actor) => void}) {
 	return <>
-    <div onClick={() => props.onClick(props.actor)}>
-      {props.actor.handle}
+    <div style={{cursor: "pointer"}} onClick={() => props.onClick(props.actor)}>
+      @{props.actor.handle}
     </div>
   </>;
 }

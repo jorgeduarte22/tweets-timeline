@@ -95,7 +95,9 @@ function TimelineChart(props: {actorDid: string}) {
         }
       },
       plotarea:{
-          margin:"100px"
+          marginLeft:"100px",
+          marginRight:"100px",
+          marginTop:"10px"
       },
       scaleX: {
         label: {

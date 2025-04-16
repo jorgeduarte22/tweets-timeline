@@ -24,7 +24,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-        <div>Título temporal</div>
+        <div style={{margin: "20px", fontSize:"30px", fontWeight:"bold"}}>Aquí va un título</div>
         <SearchBar onSelect={(actorDid) => setSelectedActor(actorDid)}/>
         {selectedActor && 
         <>

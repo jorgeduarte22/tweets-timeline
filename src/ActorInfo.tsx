@@ -16,17 +16,19 @@ function SearchBar(props: {actorDid: string}) {
 
   const {data, isLoading, error} = useQuery(['actorInfo', props.actorDid], () => getActorProfile(props.actorDid));
 
+  const style = {margin: "10px"}
+
   if (isLoading) {
-      return <div>Loading ....</div>;
+      return <div style={style}>Loading ....</div>;
   }
 
   if (error || !data) {
-      return <div>Error fetching results</div>;
+      return <div style={style}>Error fetching results</div>;
   }
 
 	return <>
-    <div>
-      User: {data.handle}
+    <div style={style}>
+      User: @{data.handle}
     </div>
   </>;
 }

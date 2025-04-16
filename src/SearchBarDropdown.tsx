@@ -36,7 +36,7 @@ function SearchBarDropdown(props: {searchQuery: string, onSelect: (actor: Actor)
 	return <>
     <div>
       {data && data.map(actor=>{
-          return <SearchBarDropdownItem actor={actor} onClick={props.onSelect} />
+          return <SearchBarDropdownItem actor={actor} onClick={props.onSelect} key={actor.did} />
       })}
     </div>
   </>;

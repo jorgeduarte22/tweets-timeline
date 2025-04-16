@@ -32,6 +32,10 @@ function SearchBarDropdown(props: {searchQuery: string, onSelect: (actor: Actor)
   if (error) {
       return <div>Error fetching results</div>;
   }
+  
+  if (data === undefined || data.length === 0) {
+    return <div>No results</div>;
+  }
 
 	return <>
     <div>

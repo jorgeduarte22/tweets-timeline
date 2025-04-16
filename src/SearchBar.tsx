@@ -13,10 +13,10 @@ function SearchBar(props: {onSelect: (actorDid: string) => void}) {
     <div>
       <input type="text" placeholder="Busca una cuenta:" onChange={onChange} value={searchQuery}/>
       <div style={{position: "absolute", backgroundColor: "rgb(255 255 255 / 100%)", zIndex:1}}>
-        <SearchBarDropdown searchQuery={searchQuery} onSelect={(actor) => {
+        {searchQuery != "" && <SearchBarDropdown searchQuery={searchQuery} onSelect={(actor) => {
           props.onSelect(actor.did);
           setSearchQuery('');
-        }}></SearchBarDropdown>
+        }}></SearchBarDropdown>}
       </div>
     </div>
   </>;

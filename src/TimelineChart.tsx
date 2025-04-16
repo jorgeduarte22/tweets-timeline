@@ -58,6 +58,17 @@ function TimelineChart(props: {actorDid: string}) {
     console.log("FIRST POST " + new Date(sortedTimestamps[0]).valueOf());
     return {
       type: 'scatter',
+      plot: {
+        marker: {
+          size: 3,
+          backgroundColor: "red",
+          borderWidth: 0,
+          alpha: 0.3
+        }
+      },
+      plotarea:{
+          margin:"100px"
+      },
       series: [{
         values: values
       }],
@@ -78,6 +89,10 @@ function TimelineChart(props: {actorDid: string}) {
         maxValue: 1440,
         step: 60
       },
+      source: {
+        text: "Bluesky API",
+        url: "https://docs.bsky.app/"
+      }
     };
   }
   

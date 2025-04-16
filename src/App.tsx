@@ -22,8 +22,11 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-     <SearchBar onSelect={(actorDid) => setSelectedActor(actorDid)}/>
-     {selectedActor && <TimelineChart actorDid={selectedActor} />}
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div>Título temporal</div>
+        <SearchBar onSelect={(actorDid) => setSelectedActor(actorDid)}/>
+        {selectedActor && <TimelineChart actorDid={selectedActor} />}
+      </div>
    </QueryClientProvider>
   );
 }

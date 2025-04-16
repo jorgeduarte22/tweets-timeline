@@ -36,7 +36,7 @@ function TimelineChart(props: {actorDid: string}) {
       console.log("SIZE " + response.data.feed.length);
       console.log("TOTAL SIZE " + postTimelines.length);
       setLoadedPosts(postTimelines.length)
-    } while (cursor != undefined)
+    } while (cursor !== undefined)
     return postTimelines.sort();
   }
 

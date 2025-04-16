@@ -14,7 +14,7 @@ export interface Actor {
 
 function SearchBarDropdown(props: {searchQuery: string, onSelect: (actor: Actor) => void}) {
   const searchQuery = async (term: string): Promise<Actor[]> => {
-    if(term != "") {
+    if(term !== "") {
       const { data } = await agent.searchActorsTypeahead({
         term: term
       });

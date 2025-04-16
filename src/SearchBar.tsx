@@ -12,7 +12,7 @@ function SearchBar(props: {onSelect: (actorDid: string) => void}) {
 	return <>
     <div>
       <input type="text" style={{width:"200px"}} placeholder="Busca una cuenta:" onChange={onChange} value={searchQuery}/>
-      {searchQuery != "" && <div style={{position: "absolute", width:"200px", marginTop: "5px", backgroundColor: "rgb(250 250 250 / 100%)", borderRadius: "5px", border: "1px solid #a6a6a6", padding: "3px", zIndex:1}}>
+      {searchQuery !== "" && <div style={{position: "absolute", width:"200px", marginTop: "5px", backgroundColor: "rgb(250 250 250 / 100%)", borderRadius: "5px", border: "1px solid #a6a6a6", padding: "3px", zIndex:1}}>
         <SearchBarDropdown searchQuery={searchQuery} onSelect={(actor) => {
           props.onSelect(actor.did);
           setSearchQuery('');
